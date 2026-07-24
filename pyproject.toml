@@ -1,0 +1,16 @@
+[project]
+name = "xgbord"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.1",
+    "ogboost>=0.8.2",
+    "ordinalgbt>=0.1.2",
+    "pandas>=3.0.5",
+    "requests>=2.34.2",
+    "scikit-learn>=1.9.0",
+    "xgboost>=3.3.0",
+]
