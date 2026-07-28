@@ -56,9 +56,9 @@ class XGBORD(BaseEstimator):
         assert self.thresholds_method in [
             "none",
             "optimal",
-            "median",
+            "imp_med",
             "mean",
-            "projections",
+            "lat_med",
         ], "thresholds_methods must be 'none', 'optimal', 'median' or 'mean'"
 
         self._n_classes = len(self._classes)
@@ -173,7 +173,7 @@ class XGBORD(BaseEstimator):
         if self.thresholds_method == "optimal":
             print("Optimizing thresholds...")
             self.optimize_thresholds(X, y)
-        elif self.thresholds_method == "median":
+        elif self.thresholds_method == "imp_med":
             print("Computing thresholds using median projections...")
             if isinstance(X, (np.ndarray, list)):
                 X_df = pd.DataFrame(X)
@@ -197,7 +197,7 @@ class XGBORD(BaseEstimator):
             self.thresholds = (
                 mean_projections_per_class[:-1] + mean_projections_per_class[1:]
             ) / 2.0
-        elif self.thresholds_method == "projections":
+        elif self.thresholds_method == "lat_med":
             projections = self.booster.predict(dmatrix_train)
             mean_projections_per_class = []
             for q in self._classes:

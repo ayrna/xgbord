@@ -37,7 +37,7 @@ clf = XGBORD(
     n_estimators=100,
     max_depth=5,
     learning_rate=0.1,
-    thresholds_method="projections",
+    thresholds_method="lat_med",
     balanced_class_weights=True,
 )
 
