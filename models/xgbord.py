@@ -20,7 +20,7 @@ class XGBORD(BaseEstimator):
         lbfgs_optimizer=False,
         optimize_thresholds_learning_rate="same",
         balanced_class_weights=False,
-        thresholds_method="optimal",
+        thresholds_method="opt_thresh",
         random_state=None,
     ):
         self.max_depth = max_depth
@@ -55,11 +55,11 @@ class XGBORD(BaseEstimator):
 
         assert self.thresholds_method in [
             "none",
-            "optimal",
-            "imp_med",
-            "mean",
+            "opt_thresh",
+            "inp_med",
+            "inp_mean",
             "lat_med",
-        ], "thresholds_methods must be 'none', 'optimal', 'median' or 'mean'"
+        ], "thresholds_methods must be 'none', 'opt_thresh', 'inp_med' , 'lat_med' or 'inp_mean'"
 
         self._n_classes = len(self._classes)
 
@@ -170,10 +170,10 @@ class XGBORD(BaseEstimator):
             num_boost_round=self.n_estimators,
             obj=custom_obj,
         )
-        if self.thresholds_method == "optimal":
+        if self.thresholds_method == "opt_thresh":
             print("Optimizing thresholds...")
             self.optimize_thresholds(X, y)
-        elif self.thresholds_method == "imp_med":
+        elif self.thresholds_method == "inp_med":
             print("Computing thresholds using median projections...")
             if isinstance(X, (np.ndarray, list)):
                 X_df = pd.DataFrame(X)
@@ -185,7 +185,7 @@ class XGBORD(BaseEstimator):
             self.thresholds = (
                 median_projections_per_class[:-1] + median_projections_per_class[1:]
             ) / 2.0
-        elif self.thresholds_method == "mean":
+        elif self.thresholds_method == "inp_mean":
             print("Computing thresholds using mean projections...")
             if isinstance(X, (np.ndarray, list)):
                 X_df = pd.DataFrame(X)
